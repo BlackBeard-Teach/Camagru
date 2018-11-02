@@ -23,8 +23,8 @@ if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
   return;
 }
 
-if (strlen($username) > 50 || strlen($username) < 3) {
-  $_SESSION['error'] = "Username should be between 3 and 50 characters";
+if (strlen($username) > 50 || strlen($username) < 4) {
+  $_SESSION['error'] = "Username should be between 4 and 50 characters";
   header("Location: ../signup.php");
   return;
 }
