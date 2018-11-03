@@ -89,4 +89,19 @@ try {
     } catch (PDOException $e) {
         echo "ERROR CREATING TABLE: ".$e->getMessage() ."<br>";
     }
+
+//TEMP CAMERA IMAGE TABLE
+try {
+        // Connect to DATABASE previously created
+        $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "CREATE TABLE IF NOT EXISTS  `cam` (
+            `id` int(11) NOT NULL,
+            `imgsrc` varchar(255) NOT NULL
+        )";
+        $dbh->exec($sql);
+        echo "Table cam created successfully<br>";
+    } catch (PDOException $e) {
+        echo "ERROR CREATING TABLE: ".$e->getMessage() ."<br>";
+    }
 ?>
