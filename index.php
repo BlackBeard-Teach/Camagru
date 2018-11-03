@@ -10,6 +10,7 @@ session_start();
   <body>
     <?php include('head&foot/header.php') ?>
     <?php include('head&foot/footer.php') ?>
+    <form method="post" action="cam.php"><input name="call cam" type="submit" value=" Take Pic "></form>
     <div id="login">
       <div class="title">LOGIN</div>
       <div id="blue">
