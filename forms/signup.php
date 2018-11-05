@@ -39,6 +39,7 @@ if ($password != $password1)
 {
     $_SESSION['error'] = "Password do not match";
     header("Location: ../signup.php");
+    return;
 }
 
 if (!preg_match("#[0-9]+#", $password))
