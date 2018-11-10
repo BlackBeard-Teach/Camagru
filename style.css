@@ -1,0 +1,141 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    background:url('https://images.pexels.com/photos/226243/pexels-photo-226243.jpeg?auto=compress&cs=tinysrgb&h=350');
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.header {
+    width: 30%;
+    margin: 0px auto 0px;
+    color: white;
+    background: #5F9EA0;
+    text-align: center;
+    border: 1px solid #B0C4DE;
+    border-bottom: none;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px;
+    
+}
+#head {
+    width: 100%;
+    height: 60px;
+    background-color: #18414e;
+    color: orange;
+    text-align: center;
+}
+.signpopup
+{
+    font-size:15px;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+    #head a {
+        margin-top: 10px;
+        font-size: 15px;
+        text-align: center;
+        float:right;
+        color: aqua;
+        margin: 10px;
+    }
+    #head h3{
+        color:green;
+    }
+    
+    button:hover
+    {
+        color: red;
+        cursor: pointer;
+       background: #18414e
+    }
+    .footer {
+           float: right; 
+           color: red;
+           font-family: 'Courier New', Courier, monospace;
+           font-size: 20px;
+    }
+     .gh {
+        float: center;
+        color: orange;
+        margin-right: 175x;
+       text-align: center;
+    }
+    .view
+    {
+        text-align: center;
+        float: right;
+        text-align: top;
+
+    }
+
+.wel
+ {
+     font-size: 52px;
+     text-align: center;
+     color: yellow;
+     font-style: italic
+ }
+ .gal
+ {
+    font-size: 52px;
+    text-align: right;
+    color: black;
+    font-style: italic
+ }
+form, .content 
+{
+    width: 30%;
+    margin: 0px auto;
+    padding: 20px;
+    border: 1px solid #B0C4DE;
+    border-radius: 0px 0px 10px 10px;
+}
+form{
+    background-color: beige;
+    background-blend-mode: hard-light; 
+}
+.input-group
+{
+    margin: 10px 0px 10px 0px;
+}
+.input-group label 
+{
+    display: block;
+    text-align: left;
+    margin: 3px;
+}
+.input-group input
+{
+    height: 30px;
+    width: 93%;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+.btn {
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    background: #5F9EA0;
+    border: none;
+    border-radius: 5px;
+}
+
+p
+{
+    color: black;
+    text-align: center;
+
+}
+p a{
+    color:red;
+}
+.h2
+{
+    margin-top: 10px;
+}
