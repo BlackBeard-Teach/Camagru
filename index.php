@@ -56,7 +56,7 @@
 
 <?PHP 
 
-include ('footer.php');?>
+include ('head&foot/footer.php');?>
 </body>
 </html>
 
