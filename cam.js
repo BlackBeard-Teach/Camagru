@@ -5,7 +5,8 @@
     photo = document.getElementById('photo'),
     vendorUrl = window.webkitURL;
 
-    navigator.getMedia = navigator.webkitGetUserMedia;
+    navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                         navigator.moGetUserMedia || navigator.msGetUserMedia);
     
     navigator.getMedia({
         video: true,
