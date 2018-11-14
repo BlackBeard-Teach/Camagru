@@ -11,7 +11,7 @@
 
 <div id="head">
     <h2>Welcome to Camagru</h2>
-    <a class="signupPopup" href="Login.php" title="Login">Login<span></span></a>
+    <a class="signupPopup" href="login.php" title="Login">Login<span></span></a>
      <a class="signupPopup" href="Gallery.php" title="View Gallery">View Gallery<span></span></a>
     
     </div>
@@ -55,8 +55,6 @@
 <hr>
 
 <?PHP 
-
-include ('head&foot/footer.php');?>
 </body>
 </html>
 
