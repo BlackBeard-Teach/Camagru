@@ -21,14 +21,13 @@ try {
         $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //sql to create table
-        $sql = "CREATE TABLE IF NOT EXISTS users (
-          id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-          username VARCHAR(50) NOT NULL,
-          mail VARCHAR(100) NOT NULL,
-          password VARCHAR(255) NOT NULL,
-          token VARCHAR(50) NOT NULL,
-          verified VARCHAR(1) NOT NULL DEFAULT 'N'
-        )";
+        $$sql = "CREATE TABLE Users (
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        Username VARCHAR(255) NOT NULL,
+        Email varchar(255) NOT NULL ,
+        Passwd VARCHAR(255) NOT NULL,
+        `token` VARCHAR(50) NOT NULL,
+        `varified` INT(1) DEFAULT 0)";
         $dbh->exec($sql);
         echo "Table users created successfully<br>";
     } catch (PDOException $e) {
