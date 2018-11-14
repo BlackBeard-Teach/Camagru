@@ -1,0 +1,79 @@
+
+<?php session_start();
+
+include('config/database.php');
+
+$_SESSION['f'] = null;
+$opass = $_POST['oPassword'];
+$pass = $_POST['Password'];
+$cpass = $_POST['cPassword'];
+
+
+if ($cpass != $cpass)
+{
+    $_SESSION['f'] = "Passwords dont match try again";
+    header("Location: update_password.php");
+    exit();
+}
+if (!preg_match("#[a-zA-Z]+#", $pass))
+{
+    $_SESSION['f'] = "Password shoud contain at least Lowercase, Uppercase";
+    header("Location: update_password.php");
+    exit();
+}
+if (!preg_match("#[0-9]+#", $pass))
+{
+    $_SESSION['f'] = "Password shoud contain at least a digit ";
+    header("Location: update_password.php");
+    exit();
+}
+if (strlen($pass) < 4)
+{
+    $_SESSION['f'] = "Password should contain at least 4 chars";
+    header("Location: update_password.php");
+    exit();
+}
+$hash_pass = hash("whirlpool", $opass);
+
+    if (isset($_POST['Update'])){
+        $user = $_SESSION['username'];
+        
+       
+        try{
+            $conn = new PDO($DSN_dbname, $username, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo = $conn->prepare("SELECT * FROM users WHERE `Username` = '$user'");
+            $pdo->execute();
+        }catch(PDOException $e){
+            $_SESSION['f'] = "Connection errors";
+            header("Location: update_password.php");
+        }
+        $row = $pdo->fetch(PDO::FETCH_ASSOC);
+       
+        $pas = $row['Passwd'];
+        $oldPassword = $_POST['oPassword'];
+        $newPassword = $_POST['Password'];
+        $oldHash = hash("whirlpool", $oldPassword);
+        $newHash = hash("whirlpool", $newPassword); 
+       
+        if ($oldHash == $pas){
+            try{
+                $conn = new PDO($DSN_dbname, $username, $password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $pdo = $conn->prepare("UPDATE users SET `Passwd` = '$newHash'");
+                $pdo->execute();
+                $_SESSION['f'] = "Password succesfully changed";
+                header("Location: update_password.php");
+            }catch(PDOException $e){
+                $_SESSION['f'] = "Connection errors";
+                header("Location: update_password.php");
+            }
+        }
+        else{
+            $_SESSION['f'] = "Passwords don't match ";
+            header("Location: update_password.php");
+        }
+        
+    }
+?>
+
