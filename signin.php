@@ -12,7 +12,7 @@ $pass = hash("Whirlpool", $pwd);
 try{
     $conn = new PDO($DSN_dbname, $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo = $conn->prepare("SELECT Username, Passwd FROM users WHERE Username=? AND Passwd = ? AND varified = 1");
+    $pdo = $conn->prepare("SELECT * FROM users WHERE Username=? AND Passwd = ? AND varified = 1");
     $pdo->execute(array($user, $pass));
     $found= $pdo->rowCount();
     $row = $pdo->fetch(PDO::FETCH_ASSOC);
