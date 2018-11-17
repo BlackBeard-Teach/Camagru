@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,7 +7,8 @@
 </head>
 <body>
 <div id="head">
-    <h2>Welcome to Camagru</h2>
+    <h2>Welcome to Camagru <?php echo  '<br>'.$_SESSION['username'] ; ?></h2>
+   
 
 
     <!--<a class="signupPopup" href="Logout.php" title="Logout">Logout<span></span></a>
@@ -24,8 +26,9 @@
         <li> <a href="#"> Edit Profile </a>
                 <ul>
                 <li> <a href="update_password.php">Password</a></li>
-                <li> <a href="userName.php">Usernames</a></li>
-                <li> <a href="Drop_Acc.php">Delete Acc</a></li>
+                <li> <a href="editUsername.php">Usernames</a></li>
+                <li> <a href="editMail.php">Change Email</a></li>
+                <li> <a href="mailNotif.php">Mail Notification</a></li>
                 </ul>
             </li>
         <li><a href="home.php"> HOME </a></li>
@@ -33,6 +36,7 @@
            
         </ul>
     </nav>
+    
 </div> 
  
 </body>
