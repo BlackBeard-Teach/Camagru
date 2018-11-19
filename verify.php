@@ -2,6 +2,7 @@
 //echo "Account Already Activated or Not Found";
 include ('config/database.php');
 $tok = $_GET['token'];
+
   try {
     $conn = new PDO($DSN_dbname, $username, $password);
     // set the PDO error mode to exception

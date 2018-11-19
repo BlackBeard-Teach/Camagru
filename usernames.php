@@ -14,7 +14,9 @@ if (isset($_POST['UpdateUser']))
      $conn = new PDO($DSN_dbname, $username, $password);
      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
      $pdo = $conn->prepare("SELECT * FROM users WHERE Username = ?");
-     $pdo->execute($oldUser);
+
+     $pdo->execute(array($oldUser));
+ 
 
  }catch(PDOException $e){
     $_SESSION['t'] = "Connection Error";
@@ -29,11 +31,23 @@ if (isset($_POST['UpdateUser']))
      try{
         $conn = new PDO($DSN_dbname, $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo = $conn->prepare("SELECT Username FROM users WHERE Username = ?");
+        $pdo->execute(array($newUser));
+        $found = $pdo->rowCount();
+        
+        
+        if ($found == 0)
+        {
         $pdo = $conn->prepare("UPDATE users SET Username = ? WHERE Username = ?");
         $pdo->execute(array($newUser, $oldUser));
-        $_SESSION['t'] = "Username succesfully changed";
+        $_SESSION['t'] = "Username succesfully changed " ;
         header("Location: editUsername.php");
-     }catch(PDOException $e){
+     } else {
+        $_SESSION['t'] = "Username Already taken ";
+        header("Location: editUsername.php");
+     
+    }
+}catch(PDOException $e){
     $_SESSION['t'] = "Connection errors";
     header("Location: editUsername.php");
 }

@@ -22,23 +22,27 @@ try{
 
     if ($found == 1)
     {
+       
         $_SESSION['username'] = $row['Username'];
-        $_SESSION['email'] = $row['Email'];
+        $_SESSION['mail'] = $row['Email'];
+        $_SESSION['id'] = $row['id'];
         header('Location: home.php');
         exit;
     }
     else
     {
         $_SESSION['er'] = "User not found or wrong password";
+        
        header('Location: login.php');
     exit();
     } 
 }
 catch (PDOEXCEPTION $e)
 {
-  echo $e; // $_SESSION['error'] = "One niqqa bring 2 niqqa";
+  echo $e; 
   
 }
+
 
 header('Location: login.php');
 $conn = NULL;

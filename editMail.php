@@ -35,7 +35,7 @@
 <div class="input-group">
     <button  type="submit"  class="btn" name="UpdateMail">Update Email</button>
 </div>
-   
+
     <?php
 					if(isset($_SESSION['y'])){
                         echo $_SESSION['y'];
