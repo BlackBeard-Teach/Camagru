@@ -35,7 +35,7 @@ require_once 'Config/database.php';
 
     try {
         // Create database connection
-        $dbh = new PDO("mysql:host=$DB_DSN;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+        $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Initialize message variable
@@ -69,7 +69,6 @@ require_once 'Config/database.php';
         //$sql->bindParam(':images', $images);
         $sql->execute(array(':images' => $images));
         $result = $sql->fetch();
-        //$result = mysqli_query($con, "SELECT * FROM images");
     } catch (PDOException $e) {
         echo "connection failed: " . $e->getMessage();
     }
