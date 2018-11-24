@@ -47,6 +47,13 @@ try {
 	    `text` TEXT(30) NOT NULL
     )";
         $dbh->exec($sql);
+	//compare and see if we can merge this for gallery
+// 		CREATE TABLE `gallery` (
+// 	  `img_id` int(11) NOT NULL,
+// 	  `username` varchar(255) NOT NULL,
+// 	  `img_name` varchar(255) NOT NULL,
+// 	  `upload_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+// 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
         echo "Table gallery created successfully<br>";
     } catch (PDOException $e) {
         echo "ERROR CREATING TABLE: ".$e->getMessage() ."<br>";
@@ -102,6 +109,10 @@ try {
     } catch (PDOException $e) {
         echo "ERROR CREATING TABLE: ".$e->getMessage() ."<br>";
     }
+
+if (!file_exists('../uploads')) {
+    mkdir('../uploads', 0777, true);
+}
 ?>
 
 <!DOCTYPE HTML>
