@@ -1,3 +1,7 @@
+.c_upload{
+    margin: 0 0 20px 50px;
+}
+
 .camField{
     float:left;
     width: 400px;
@@ -9,20 +13,76 @@
 .picField{
     float:right;
     width: 400px;
-    background-color: #ccc;
+    z-index: 10;
     border: 10px solid #ddd;
+    position: absolute; 
+    height: 300px;
+    margin: 0px 50px;
+}
+
+.buts{
+    margin: 10px 0px 0px 50px;
 }
 
 .camBtn{
-    margin: 0px 53px;
     padding:10px 20px;
+    /* margin: 0px 50px; */
     background-color: cornflowerblue;
     color:#fff;
     text-align: center;
     text-decoration: none;
-    float: bottom;
+    float: center;
 }
 
-#canvas{
-    display: none;
+.capBtn{
+    padding:10px 20px;
+    margin: 0px 50px;
+    background-color: cornflowerblue;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.clrBtn{
+    padding:10px 20px;
+    /* margin: 0px 50px; */
+    background-color: cornflowerblue;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.emoBtn{
+    padding:10px 20px;
+    margin: 0px 10px 0px 240px;
+    background-color: cornflowerblue;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.emoSelect{
+    padding:10px 20px;
+    /* margin: 0px 150px; */
+    background-color: cornflowerblue;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+    height: 35px;
+}
+
+#pose{
+    width: 400px;
+    height: 300px;
+    border: 10px solid #ddd;
+    margin-left: 550px;
+}
+
+#gallery{
+    margin: 10px 0px 0px 50px;
+    border: 10px solid #ddd;
+}
+
+img{
+    margin: 2%;
 }
