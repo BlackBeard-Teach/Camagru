@@ -53,8 +53,6 @@
 </div>
 </form>
 <hr>
-
-<?PHP 
 </body>
 </html>
 
