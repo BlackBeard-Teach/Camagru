@@ -7,8 +7,9 @@ $mail = $_POST['Email'];
 try{
     $conn = new PDO($DSN_dbname, $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo = $conn->prepare("SELECT Username FROM users WHERE Email = ? AND varified = ?");
+    $pdo = $conn->prepare("SELECT * FROM users WHERE Email = ? AND varified = ?");
     $pdo->execute(array($mail, '1'));
+    $all = $pdo->fetch(PDO::FETCH_ASSOC);
     $found = $pdo->rowCount();
     
 
@@ -18,8 +19,11 @@ try{
         $pass = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $pass = str_shuffle($pass);
         $pass = substr($pass,0, 8);
+         
 
-        reset_password($mail,$pass);
+        $user = $all['Username'];
+        $url = $_SERVER['HTTP_HOST'] . str_replace("forgot.php", "", $_SERVER['REQUEST_URI']);
+        reset_password($mail,$pass, $user, $url);
 
         $hashed = hash("whirlpool", $pass);
         $pdo = $conn->prepare("UPDATE users SET Passwd = ? WHERE Email = ? AND varified = ?");
@@ -32,7 +36,7 @@ try{
     }
     else
     {
-        $_SESSION['err'] = "Email incorrect or not found $found";
+        $_SESSION['err'] = "Email incorrect or not found";
         header('Location: reset.php');
         exit();
     }
@@ -45,21 +49,21 @@ catch(PDOEXCEPTION $e)
     exit();
 }
 
-function reset_password($mail,$pass)
+function reset_password($mail,$pass, $user, $ip)
 {
  
  $to      = $mail; 
 $subject = 'Create New Password'; 
 
 $message = '
- 
+Your login credentials are as follows:
 ------------------------
-Email: '.$mail.'
+Username: '.$user.'
 Password: '.$pass.'
 ------------------------ 
 Please click this link to login into your account:
 
-http://localhost:8080/camagru/fuk/login.php
+http://'.$ip.'login.php
 
 
 
