@@ -9,6 +9,15 @@ $sql = $dbh->prepare("SELECT images.image_id,images.image, COUNT(likes.like_id) 
                     ON images.image_id = likes.image_id LEFT JOIN users
                     ON likes.user = users.Username GROUP BY images.image_id
                     ");
+/*SELECT statement selects image_id and the image from the images table**
+COUNT statement counts the number of unique like_ids from the likes table-> AS statement
+gives a column in a table a temporary name e.g COUNT(likes.like_id)is a column name
+and its temporary name is likes...Removing AS likes does not change the functionality but
+complicates things e.g wherever you see variable "likes" below it will have to be replaced
+by COUNT(likes.like_id)*********
+LEFT JOIN(joins using the relationship between the 2 table, what they have in common) will select any images that might have
+
+*/
 $sql->execute();
 
 while ($result = $sql->fetch(PDO::FETCH_ASSOC))
@@ -19,64 +28,27 @@ while ($result = $sql->fetch(PDO::FETCH_ASSOC))
 ?>
 <?php
 session_start();
+require_once('config/database.php');
 
-require_once 'Config/database.php';
+$name =$_SESSION['username'];
+
+
+    echo "halo";
+
+
+$result;
+$lyk;
+
     try {
-        // Create database connection
-        $dbh = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Initialize message variable
-        $msg = "";
-        if (isset($_POST['upload'])) {
-            // If upload button is clicked ...
-            if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
-                // Get image name
-                $image = $_FILES['image']['name'];
-                // Get text
-                $image_text = $_POST['image_text'];
-
-                // image file directory
-                $target = "images/" . basename($image);
-                echo $username = $_SESSION['username'];
-
-                $sql = "INSERT INTO images (image, user, text) 
-		  VALUES ('" . $image . "', '" . $username . "', '" . $image_text . "')";
-                $sql = $dbh->prepare($sql);
-                $sql->execute();
-                // execute query
-
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-                    $msg = "Image uploaded successfully";
-                } else {
-                    $msg = "Failed to upload image";
-                }
-                $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = $dbh->prepare("SELECT * FROM images");
-                $sql->execute(array(':images' => $image));
-                $result = $sql->fetch();
-                header("Location: gallery.php");
-            }
-            else
-            { ?>
-                <script type="text/javascript">
-                    var r = confirm("You must be logged in to upload pictures...click OK to log in");
-                    if (r == true) {
-                        window.location.href = "login.php";
-                    } else {
-                        alert("You can't upload anonymously!");
-                        window.location.href = "gallery.php";
-                    }
-                </script>
-         <?php   }
-        }
-
+        $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $result = $conn->query("SELECT * FROM `images`ORDER BY date_added DESC LIMIT 10 ", PDO::FETCH_ASSOC);
+        $lyk = $conn->query("SELECT * FROM `likes`", PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        echo "Error failed to find images: " . $e->getMessage();
-    }
+        echo "ERROR EXECUTING: \n" . $e->getMessage();
 
+}
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -140,64 +112,64 @@ require_once 'Config/database.php';
     <a href="login.php"><i class="fa fa-fw fa-user"></i> Log Out</a>
     </div>
 </header>
-<div id="content">
+<div id="main"> <?php
+    if ($result)
+        foreach ($result as $row) {
+            $count =0;
+            $lyk1 = $conn->query("SELECT * FROM `likes`", PDO::FETCH_ASSOC);
 
-    <?php foreach ($img as $pic):?>
-        <div class="pic">
-            <div id='img_div'>
-                <img src='images/<?=$pic['image'];?>' >
-                <p><?=$pic['text'];?></p>
+            ?><img id="e1" src=<?= $row['image']; ?> width="29%" height="auto">
+
+            <?php foreach ($lyk1 as $pic) {
+                if ($pic['image_id'] == $row['image_id']) {
+                    $count++;
+                }
+            }
+            ?>
+            <div class="pic">
             </div>
-            <button><a class="fa fa-thumbs-up" aria-hidden="true" href="like.php?type=image&image_id=<?php echo $pic['image_id']; ?>"></a></button>
-            <p><b><?php echo $pic['likes']; ?> people like this</b></p>
+           <p><button><a class="fa fa-thumbs-up" aria-hidden="true"
+                       href="like.php?type=image&image_id=<?php echo $row['image_id']; ?>"></a>
+            </button>
+            <b><?php echo $count; ?> people like this</b></p>
+            <div class="comment-box">
+                <?php
+                $id = $row['image_id'];
+                $sql = $dbh->prepare("SELECT * FROM comments WHERE image_id=:image_id ORDER BY date_added ASC ");
+                $sql->execute(array(':image_id' => $id));
+                $comments = $sql->fetchAll();
+                echo '<table><ul style="list-style-type: none">';
+                for ($j = 0; $j < sizeof($comments); $j++) {
+                    //Store the comment in a 2d array
+                    $comment = $comments[$j]['comment'];//Column in DB where comment is.
+                    $comment_by = $comments[$j]['Username'];
+                    echo '
+						<tr style="background-color: whitesmoke">
+						<td><li style="list-style-type: none; text-decoration-color: deepskyblue"><i class="fa fa-comment-alt"></i> '
+                        . $comment_by .//Display username of the commenter
+                        ' - </li><td>'
+                        . $comment .// Display the comment
+                        '</td>' .
+                        '</td>
+						</tr>
+						';
+                }
+                echo '
+					</ul></table>
+					';
+                ?>
+            </div>
             <form action="comments.php" id="commentform" method="POST">
-                <input type= "hidden" value="<?php echo $pic['image_id']; ?>" name="image_id">
+                <input type="hidden" value="<?php echo $row['image_id']; ?>" name="image_id">
                 <textarea name="comment_txt" placeholder="Comment on picture"></textarea>
                 <input type="submit">
             </form>
-            <div class="comment-box">
-            <?php
-            $id = $pic['image_id'];
-            $sql = $dbh->prepare("SELECT * FROM comments WHERE image_id=:image_id");
-            $sql->execute(array(':image_id' => $id));
-            $comments = $sql->fetchAll();
-            echo '<table><ul class="list_item">';
-            for ($j=0; $j < sizeof($comments); $j++)
-            {
-                $comment = $comments[$j]['comment'];
-                $comment_by = $comments[$j]['Username'];
-                echo'
-						<tr>
-						<td><li class="list_item">'
-                    . $comment_by .
-                    ' - </li><td>'
-                    . $comment .
-                    '</td>' .
-                    '</td>
-						</tr>
-						';
-            }
-            echo '
-					</ul></table>
-					';
-            ?>
-            </div>
-        </div>
-    <?php endforeach; ?>
-
-    <form method="POST" action="gallery.php" enctype="multipart/form-data" >
-        <input type="hidden" name="size" value="1000000">
-        <div>
-            <input type="file" name="image">
-        </div>
-        <div>
-      <textarea id="text" cols="40" rows="4" name="image_text" placeholder="Comment on the image">
-      </textarea>
-        </div>
-        <div>
-            <button type="submit" name="upload">Upload</button>
-        </div>
-    </form>
+           <?php
+        }
+    else
+        echo "failure";
+    ?>
+</div>
 
 </body>
 </html>
