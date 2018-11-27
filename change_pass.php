@@ -11,7 +11,7 @@ $cpass = $_POST['cPassword'];
 
 if ($pass != $cpass)
 {
-    $_SESSION['f'] = "Passwords dont match try again $cpass || $pass";
+    $_SESSION['f'] = "Passwords dont match try again ";
     header("Location: update_password.php");
     exit();
 }
@@ -70,7 +70,7 @@ $hash_pass = hash("whirlpool", $opass);
             }
         }
         else{
-            $_SESSION['f'] = "Passwords don't match !! $pas touch it $user miss-E ";
+            $_SESSION['f'] = "Passwords don't match ";
             header("Location: update_password.php");
         }
         
