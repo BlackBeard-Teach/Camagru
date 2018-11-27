@@ -38,8 +38,13 @@ if (isset($_POST['UpdateUser']))
         
         if ($found == 0)
         {
+        $pdo = $conn->prepare("UPDATE comments SET commenter = ? WHERE commenter = ?");
+        $pdo->execute(array($newUser, $oldUser));
+        $pdo = $conn->prepare("UPDATE gallery SET username =? WHERE username = ?");
+        $pdo->execute(array($newUser, $oldUser));
         $pdo = $conn->prepare("UPDATE users SET Username = ? WHERE Username = ?");
         $pdo->execute(array($newUser, $oldUser));
+        
         $_SESSION['t'] = "Username succesfully changed " ;
         header("Location: editUsername.php");
      } else {
