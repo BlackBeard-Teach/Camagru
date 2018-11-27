@@ -9,9 +9,9 @@ $pass = $_POST['Password'];
 $cpass = $_POST['cPassword'];
 
 
-if ($cpass != $cpass)
+if ($pass != $cpass)
 {
-    $_SESSION['f'] = "Passwords dont match try again";
+    $_SESSION['f'] = "Passwords dont match try again $cpass || $pass";
     header("Location: update_password.php");
     exit();
 }
@@ -42,8 +42,8 @@ $hash_pass = hash("whirlpool", $opass);
         try{
             $conn = new PDO($DSN_dbname, $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo = $conn->prepare("SELECT * FROM users WHERE `Username` = '$user'");
-            $pdo->execute();
+            $pdo = $conn->prepare("SELECT * FROM users WHERE `Username` = ?");
+            $pdo->execute(array($user));
         }catch(PDOException $e){
             $_SESSION['f'] = "Connection errors";
             header("Location: update_password.php");
@@ -70,10 +70,9 @@ $hash_pass = hash("whirlpool", $opass);
             }
         }
         else{
-            $_SESSION['f'] = "Passwords don't match ";
+            $_SESSION['f'] = "Passwords don't match !! $pas touch it $user miss-E ";
             header("Location: update_password.php");
         }
         
     }
 ?>
-
