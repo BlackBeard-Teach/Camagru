@@ -1,14 +1,8 @@
 <?php session_start();
 
 include('config/database.php');
-$username = "root";
-$DSN_db = "mysql:host=localhost";
-$db_name = "home";
-$DSN_dbname = "mysql:host=localhost;dbname=$db_name";
-$password = "mikasa88";
 
-
-$logged = $_SESSION['id'];
+$logged = $_SESSION['username'];
 if (isset($_POST['check'])){
     $set = $_POST['check'];
 }
@@ -21,7 +15,7 @@ if ($set == 'Yes'){
     try{
     $conn = new PDO($DSN_dbname , $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo = $conn->prepare("UPDATE comments SET mailNotif = ? WHERE Userid = ?");
+    $pdo = $conn->prepare("UPDATE users SET mailNotif = ? WHERE Username = ?");
     $pdo->execute(array(1, $logged));
     $_SESSION['notif'] = "Email notification enabled";
     header("Location: mailNotif.php");
@@ -35,8 +29,8 @@ if ($set == 'No'){
     try{
     $conn = new PDO($DSN_dbname, $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo = $conn->prepare("UPDATE comments SET mailNotif = ? WHERE Userid = ?");
-    $pdo->execute(array('0', $logged));
+    $pdo = $conn->prepare("UPDATE users SET mailNotif = ? WHERE Username = ?");
+    $pdo->execute(array(0, $logged));
     $_SESSION['notif'] = "Email notification disbled";
     header("Location: mailNotif.php");
     
