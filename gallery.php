@@ -26,30 +26,46 @@ while ($result = $sql->fetch(PDO::FETCH_ASSOC))
     $img[] = $result;
 }
 ?>
+
 <?php
 session_start();
 require_once('config/database.php');
 
 $name =$_SESSION['username'];
 
-
-    echo "halo";
-
+if (isset($_GET['page']) && $_GET['page'] >= 5) {
+    $curpage = $_GET['page'];
+} else {
+    $curpage = 0;
+}
 
 $result;
 $lyk;
 
+
+//echo $count_page['total'];
+
     try {
         $conn = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $result = $conn->query("SELECT * FROM `images`ORDER BY date_added DESC LIMIT 10 ", PDO::FETCH_ASSOC);
+        $count_page = $conn->query("SELECT COUNT(*) FROM `images`", PDO::FETCH_ASSOC)->fetchColumn();
+        echo $count_page;
+
+        if ($curpage < $count_page) {
+            $result = $conn->query("SELECT * FROM `images`ORDER BY date_added DESC LIMIT 5 OFFSET $curpage", PDO::FETCH_ASSOC);
+        }
+        else
+        {
+            $curpage = $curpage - 5;
+            $result = $conn->query("SELECT * FROM `images`ORDER BY date_added DESC LIMIT 5 OFFSET $curpage", PDO::FETCH_ASSOC);
+        }
         $lyk = $conn->query("SELECT * FROM `likes`", PDO::FETCH_ASSOC);
+
     } catch (PDOException $e) {
         echo "ERROR EXECUTING: \n" . $e->getMessage();
 
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -170,6 +186,11 @@ $lyk;
         echo "failure";
     ?>
 </div>
+<div class="page">
+    <li class="page-item"><a class="page-link" href="?page=<?php echo $curpage+5?>"><span aria-hidden="true">&raquo;</span></a></li>
+    <li class="page-item"><a class="page-link" href="?page=<?php if ($curpage != 0) echo $curpage-5; else echo $curpage; ?>"><span aria-hidden="true">&laquo;</span></a></li>
+</div>
+
 
 </body>
 </html>
