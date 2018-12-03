@@ -2,9 +2,6 @@
 session_start();
 
     $uid = $_SESSION['username'];
-    echo $uid;
-    echo $_GET['image_id'];
-
     require_once 'Config/database.php';
 
     try {
